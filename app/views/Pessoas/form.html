@@ -1,0 +1,60 @@
+#{extends 'main.html' /}
+#{set title: 'Cadastrar Aluno'/}
+
+<section class="card" style="box-shadow: 0 0 5px black;">
+    <div class="card-header">
+        <h2>Novo Aluno</h2>
+    </div>
+
+    <form action="@{Pessoas.salvar()}" method="POST" class="form-grid">
+        <!-- Campo Oculto para ID (Edição) -->
+        <input type="hidden" name="p.id" value="${p?.id}" />
+
+        <!-- Nome do Aluno -->
+        <div class="form-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="p.nome" value="${p?.nome}" placeholder="Ex: João Silva" required />
+        </div>
+
+        <!-- Matrícula -->
+        <div class="form-group">
+            <label for="matricula">Matrícula</label>
+            <input type="text" id="matricula" name="p.matricula" value="${p?.matricula}" placeholder="Ex: 20261001"
+                required />
+        </div>
+
+        <!-- E-mail -->
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="p.email" value="${p?.email}" placeholder="exemplo@email.com"
+                required />
+        </div>
+
+        <!-- E-mail -->
+        <div class="form-group">
+            <label for="email">Senha</label>
+            <input type="password" id="senha" name="p.senha" value="${p?.senha}" required />
+        </div>
+
+        <!-- Select da Turma (Relacionamento ManyToOne) -->
+        <div class="form-group">
+            <label for="turma">Turma</label>
+            <select name="p.turma.id" id="turma" required>
+                <option value="">-- Selecione uma turma --</option>
+
+                <!-- Laço Groovy do Play Framework -->
+                #{list items: lista, as:'t'}
+                <option value="${t.id}" ${p?.t?.id==t.id ? 'selected' : '' }>
+                    ${t.nome}
+                </option>
+                #{/list}
+            </select>
+        </div>
+
+        <!-- Ações do Formulário -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar Aluno</button>
+            <a href="@{Pessoas.listar()}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,44 @@
+#{extends 'main.html' /}
+#{set title:'Listagem de Alunos - Sistema Escolar' /}
+
+<section class="card">
+    <div class="list-header">
+        <h2>${nomeTurma}</h2>
+    </div>
+
+    <!-- Tabela de Listagem -->
+    #{if lista && !lista.isEmpty()}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th>Nome</th>
+                    <th>Matrícula</th>
+                    <th>E-mail</th>
+                    <th style="width: 160px; text-align: center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                #{list items:lista, as:'aluno'}
+                <tr>
+                    <td>${aluno.id}</td>
+                    <td><strong>${aluno.nome}</strong></td>
+                    <td>${aluno.matricula}</td>
+                    <td>${aluno.email}</td>
+                    <td class="actions-cell">
+                        <a href="@{Pessoas.editar(aluno.id)}" class="btn-action btn-edit">Editar</a>
+                        <a href="@{Pessoas.remover(aluno.id)}" class="btn-action btn-delete">Excluir</a>
+                    </td>
+                </tr>
+                #{/list}
+            </tbody>
+        </table>
+    </div>
+    #{/if}
+    #{else}
+    <div class="empty-state">
+        <p>Nenhum aluno encontrado.</p>
+    </div>
+    #{/else}
+</section>

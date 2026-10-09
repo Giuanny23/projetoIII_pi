@@ -1,0 +1,62 @@
+#{extends 'main.html' /}
+#{set title:'Listagem de Alunos - Sistema Escolar' /}
+
+<section class="card">
+    <div class="list-header">
+        <h2>Alunos Cadastrados</h2>
+        <a href="@{Pessoas.form()}" class="btn btn-primary">+ Novo Aluno</a>
+    </div>
+
+    <!-- Formulário de Filtragem / Busca por Nome -->
+    <form action="@{Pessoas.listar()}" method="GET" class="filter-form">
+        <div class="filter-group">
+            <input type="text" name="termo" value="${termo}" placeholder="Buscar aluno pelo nome..." />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            #{if nome}
+            <a href="@{Pessoas.listar()}" class="btn btn-secondary">Limpar</a>
+            #{/if}
+        </div>
+    </form>
+
+    <!-- Tabela de Listagem -->
+    #{if alunos && !alunos.isEmpty()}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th>Nome</th>
+                    <th>Matrícula</th>
+                    <th>E-mail</th>
+                    <th>Turma</th>
+                    <th style="width: 160px; text-align: center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                #{list items:alunos, as:'aluno'}
+                <tr>
+                    <td>${aluno.id}</td>
+                    <td><strong>${aluno.nome}</strong></td>
+                    <td>${aluno.matricula}</td>
+                    <td>${aluno.email}</td>
+                    <td>
+                        <span class="badge-turma">
+                            <a href="@{Turmas.detalhar(aluno?.turma?.id)}">${aluno.turma?.nome}</a>
+                        </span>
+                    </td>
+                    <td class="actions-cell">
+                        <a href="@{Pessoas.editar(aluno.id)}" class="btn-action btn-edit">Editar</a>
+                        <a href="@{Pessoas.remover(aluno.id)}" class="btn-action btn-delete">Excluir</a>
+                    </td>
+                </tr>
+                #{/list}
+            </tbody>
+        </table>
+    </div>
+    #{/if}
+    #{else}
+    <div class="empty-state">
+        <p>Nenhum aluno encontrado${nome ? ' para o termo "' + nome + '"' : ''}.</p>
+    </div>
+    #{/else}
+</section>

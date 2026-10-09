@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#{get 'title'}Sistema Escolar#{/get}</title>
+
+    <!-- CSS Principal -->
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+
+    #{get 'moreStyles' /}
+</head>
+
+<body>
+
+    <header class="main-header">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li><a href="@{Application.index()}">Inicio</a></li>
+                <li><a href="@{Pessoas.form()}">Cadastrar-se</a></li>
+                <li><a href="@{Pessoas.listar()}">Listar Alunos</a></li>
+
+                #{if session.contains('adm')}
+                <li><a href="@{Turmas.form()}">Cadastrar Turma</a></li>
+                #{/if}
+
+                <li><a href="@{Turmas.listar()}">Listar Turmas</a></li>
+                <li><a href="@{Login.form()}">Login</a></li>
+                <li><a href="@{Login.logout()}">Deslogar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+
+
+        #{if flash.success}
+        <div class="alert alert-success">
+            ${flash.success}
+        </div>
+        #{/if}
+        #{if flash.error}
+        <div class="alert alert-danger">
+            ${flash.error}
+        </div>
+        #{/if}
+
+
+        #{doLayout /}
+    </main>
+
+</body>
+
+</html>

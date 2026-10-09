@@ -1,0 +1,51 @@
+#{extends 'main.html' /}
+#{set title:'Listagem de Turmas - Sistema Escolar' /}
+
+<section class="card">
+    <div class="list-header">
+        <h2>Turmas Cadastradas</h2>
+        <a href="@{Turmas.form()}" class="btn btn-primary">+ Nova Turma</a>
+    </div>
+
+    <!-- Formulário de Filtragem / Busca por Nome -->
+    <form action="@{Turmas.listar()}" method="GET" class="filter-form">
+        <div class="filter-group">
+            <input type="text" name="nome" value="${nome}" placeholder="Buscar turma pelo nome..." />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            #{if nome}
+            <a href="@{Turmas.listar()}" class="btn btn-secondary">Limpar</a>
+            #{/if}
+        </div>
+    </form>
+
+    <!-- Tabela de Listagem -->
+    #{if turmas && !turmas.isEmpty()}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">ID</th>
+                    <th>Nome da Turma</th>
+                    <th style="width: 160px; text-align: center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                #{list items:turmas, as:'turma'}
+                <tr>
+                    <td>${turma.id}</td>
+                    <td><strong><a href="@{Turmas.detalhar(turma.id)}">${turma.nome}</a></strong></td>
+                    <td class="actions-cell">
+                        <a href="@{Turmas.remover(turma.id)}" class="btn-action btn-delete">Excluir</a>
+                    </td>
+                </tr>
+                #{/list}
+            </tbody>
+        </table>
+    </div>
+    #{/if}
+    #{else}
+    <div class="empty-state">
+        <p>Nenhuma turma encontrada${nome ? ' para o termo "' + nome + '"' : ''}.</p>
+    </div>
+    #{/else}
+</section>
